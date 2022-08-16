@@ -1,7 +1,6 @@
 package com.example.crossfit.fragments.timerFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crossfit.NAV_CONTROLLER
 import com.example.crossfit.R
-import com.example.crossfit.adapters.RcAdapter
+import com.example.crossfit.adapters.RoundAdapter
 import com.example.crossfit.databinding.FragmentTimerBinding
 import com.example.crossfit.fragments.MyViewModelFactory
 import com.example.crossfit.models.WorkoutType.TYPE_TIME
@@ -28,7 +27,7 @@ class TimerFragment : Fragment() {
         val countdownTime = arguments?.getLong("countdownTime")?: 5
         val timeEnd = arguments?.getLong("timeEnd")?: 2
         val viewModel = ViewModelProvider(this, MyViewModelFactory(countdownTime = countdownTime, timeEnd = timeEnd)).get(TimerFragmentViewModel::class.java)
-        val adapter = RcAdapter()
+        val adapter = RoundAdapter()
         binding.rcView.adapter = adapter
         binding.rcView.layoutManager = LinearLayoutManager(requireContext())
         binding.back.setOnClickListener { NAV_CONTROLLER.popBackStack() }

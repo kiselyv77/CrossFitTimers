@@ -10,7 +10,6 @@ import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.widget.NumberPicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +22,7 @@ import com.example.crossfit.utils.formateTime
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
-//Я в своем сознании настолько преисполнился...
+//Я в своем познании настолько преисполнился...
 class TimersFragment : Fragment() {
     // Основной биндинг
     private lateinit var binding:FragmentTimersBinding
@@ -56,8 +55,7 @@ class TimersFragment : Fragment() {
         // Следим за состоянием вью модели
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                // Это настойка менюшек меню которые потом добавляем в каждый блок (CardView)
-                Log.d("log", state.stateCardForTime.countDownTime.toInt().toString())
+                // Это настойка менюшек которые потом добавляем в каждый блок (CardView)
                 // Тут мы настраиваем блок для каждой тренеровки. В этой настройке так же происходит настройка диалогов.
                 menuForTime.apply {
                     val titleStr = "Время обратного отчета"
@@ -313,12 +311,12 @@ class TimersFragment : Fragment() {
                             numberPickerNum.apply{
                                 maxValue = 100
                                 minValue = 1
-                                value = state.stateCardEmom.rounds
+                                value = state.stateCardEmom.rounds.toInt()
                             }
                             dialog?.setContentView(root)
                             Ok.setOnClickListener{
                                 dialog?.dismiss()
-                                viewModel.updateCardEmomCountRounds(numberPickerNum.value)
+                                viewModel.updateCardEmomCountRounds(numberPickerNum.value.toLong())
                             }
 
                             dialog?.show()
@@ -328,12 +326,157 @@ class TimersFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putLong("countdownTime", state.stateCardEmom.countDownTime)
                         bundle.putLong("timeInterval", state.stateCardEmom.timeInterval)
-                        bundle.putLong("intervals", state.stateCardEmom.rounds.toLong())
+                        bundle.putLong("intervals", state.stateCardEmom.rounds)
                         NAV_CONTROLLER.navigate(R.id.timerFragmentEmom, bundle)
                     }
                 }
-                menuTabata.apply { }
+                menuTabata.apply {
+                    val titleStr = "Время обратного отчета"
+                    val titleStr2 = "Время тренеровки"
+                    val titleStr3 = "Время отдыха"
+                    val titleStr4 = "Для интрервалов"
+                    menu4.visibility = VISIBLE
+                    title1.text = titleStr
+                    value1.text = state.stateCardTabata.countDownTime.toString() + " секунд"
+                    title2.text = titleStr2
+                    value2.text = state.stateCardTabata.timeIntervalWork.formateTime()
+                    title3.text = titleStr3
+                    value3.text = state.stateCardTabata.timeIntervalRest.formateTime()
+                    title4.text = titleStr4
+                    value4.text = state.stateCardTabata.rounds.toString()
 
+                    menu1.setOnClickListener{
+                        bottomSheetBinding = ButtomSheetDialogBinding.inflate(inflater, container, false)
+                        bottomSheetBinding.apply{
+                            pickerContainerMin.visibility = GONE
+                            numberPickerSek.apply{
+                                maxValue = 100
+                                minValue = 1
+                                value = (state.stateCardEmom.countDownTime).toInt()
+                            }
+                            title.text = titleStr
+
+                            Ok.setOnClickListener{
+                                dialog?.dismiss()
+                                // при нажатии на ок диалога обновляем данные во вью модели
+                                viewModel.updateCardTabataCountDownTime(numberPickerSek.value.toLong())
+                            }
+                            dialog?.setContentView(root)
+                            dialog?.show()
+                        }
+
+
+
+                    }
+                    menu2.setOnClickListener{
+                        bottomSheetBinding = ButtomSheetDialogBinding.inflate(inflater, container, false)
+                        bottomSheetBinding.apply{
+                            numberPickerMin.apply {
+                                maxValue = 59
+                                minValue = 0
+                                value = (state.stateCardTabata.timeIntervalWork / 60).toInt() // Минуты это целочисл деление
+                            }
+                            numberPickerSek.apply {
+                                maxValue = 59
+                                minValue = 0
+                                value = (state.stateCardTabata.timeIntervalWork % 60).toInt() // Секунды мы получаем из остадка
+                            }
+
+                            // Данные отслеживатели необходимы чтобы не дать пользователю установить нулевое значение
+                            numberPickerMin.setOnValueChangedListener { _, p1, p2 ->
+                                if (p2 == 0) {
+                                    if (numberPickerSek.value == 0) {
+                                        numberPickerSek.value ++
+                                    }
+                                }
+                            }
+                            numberPickerSek.setOnValueChangedListener { _, p1, p2 ->
+                                if (p2 == 0) {
+                                    if (numberPickerMin.value == 0) {
+                                        numberPickerMin.value ++
+                                    }
+                                }
+                            }
+
+                            title.text = titleStr2
+
+                            Ok.setOnClickListener{
+                                dialog?.dismiss()
+                                // при нажатии на ок диалога обновляем данные во вью модели
+                                // необходимо сложить значение двух пиккеров и преобразовать все в секунды
+                                val intervalWork = numberPickerMin.value * 60 + numberPickerSek.value
+                                viewModel.updateCardTabataTimeIntervalWork(intervalWork.toLong())
+                            }
+
+                            dialog?.setContentView(root)
+                            dialog?.show()
+                        }
+                    }
+                    menu3.setOnClickListener{
+                        bottomSheetBinding = ButtomSheetDialogBinding.inflate(inflater, container, false)
+                        bottomSheetBinding.apply{
+                            numberPickerMin.apply {
+                                maxValue = 59
+                                minValue = 0
+                                value = (state.stateCardTabata.timeIntervalRest / 60).toInt() // Минуты это целочисл деление
+                            }
+                            numberPickerSek.apply {
+                                maxValue = 59
+                                minValue = 0
+                                value = (state.stateCardTabata.timeIntervalRest % 60).toInt() // Секунды мы получаем из остадка
+                            }
+
+                            // Данные отслеживатели необходимы чтобы не дать пользователю установить нулевое значение
+                            numberPickerMin.setOnValueChangedListener { _, p1, p2 ->
+                                if (p2 == 0) {
+                                    if (numberPickerSek.value == 0) {
+                                        numberPickerSek.value ++
+                                    }
+                                }
+                            }
+                            numberPickerSek.setOnValueChangedListener { _, p1, p2 ->
+                                if (p2 == 0) {
+                                    if (numberPickerMin.value == 0) {
+                                        numberPickerMin.value ++
+                                    }
+                                }
+                            }
+
+                            title.text = titleStr2
+
+                            Ok.setOnClickListener{
+                                dialog?.dismiss()
+                                // при нажатии на ок диалога обновляем данные во вью модели
+                                // необходимо сложить значение двух пиккеров и преобразовать все в секунды
+                                val intervalRest = numberPickerMin.value * 60 + numberPickerSek.value
+                                viewModel.updateCardTabataTimeIntervalRest(intervalRest.toLong())
+                            }
+
+                            dialog?.setContentView(root)
+                            dialog?.show()
+                        }
+                    }
+                    menu4.setOnClickListener{
+                        bottomSheetBinding = ButtomSheetDialogBinding.inflate(inflater, container, false)
+                        bottomSheetBinding.apply{
+                            pickerContainerMin.visibility = GONE
+                            numberPickerSek.apply{
+                                maxValue = 100
+                                minValue = 1
+                                value = (state.stateCardTabata.rounds).toInt()
+                            }
+                            title.text = titleStr
+
+                            Ok.setOnClickListener{
+                                dialog?.dismiss()
+                                // при нажатии на ок диалога обновляем данные во вью модели
+                                viewModel.updateCardTabataRounds(numberPickerSek.value.toLong())
+                            }
+                            dialog?.setContentView(root)
+                            dialog?.show()
+                        }
+                    }
+                }
             }
         }
 
@@ -342,6 +485,7 @@ class TimersFragment : Fragment() {
             linearForTime.addView(menuForTime.root)
             linearAMRAP.addView(menuAMRAP.root)
             linearEmom.addView(menuEmom.root)
+            linearTabata.addView(menuTabata.root)
 
             // Здесь происходит получение высоты менюшки, а потом его скрытие
             // Это необходимо так как невозможно получить высоту скрытой(GONE) вьюшки
@@ -375,6 +519,17 @@ class TimersFragment : Fragment() {
                     heightChangeValueMenuEmom = menuEmom.root.height
                     menuEmom.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     menuEmom.root.visibility = GONE
+                }
+            })
+            menuTabata.root.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    // gets called after layout has been done but before display
+                    // so we can get the height then hide the view
+                    // вызывается после выполнения макета, но перед отображением
+                    // таким образом, мы можем получить высоту, а затем скрыть вид
+                    heightChangeValueMenuTabata = menuTabata.root.height
+                    menuTabata.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    menuTabata.root.visibility = GONE
                 }
             })
 
@@ -422,13 +577,26 @@ class TimersFragment : Fragment() {
                 }
 
             }
+
+            cardViewTabata.setOnClickListener {
+                // Проверяем видно ли наше меню если нет значит оно закрыто
+                if(menuTabata.root.visibility == VISIBLE){
+                    // Закрытие меню
+                    increaseViewSize(it, -heightChangeValueMenuTabata) // метод запуска анимации
+                    menuTabata.root.visibility = GONE
+                }
+                else{
+                    // Раскрытие меню
+                    increaseViewSize(it, heightChangeValueMenuTabata) // метод запуска анимации
+                    menuTabata.root.visibility = VISIBLE
+                }
+
+            }
         }
 
         return binding.root
 
     }
-
-
 
     private fun increaseViewSize(view: View, size: Int) {
         // Запуская анимацию блокируем нажатия чтобы избежать рассинхрона

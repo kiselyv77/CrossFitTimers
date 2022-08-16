@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crossfit.NAV_CONTROLLER
 import com.example.crossfit.R
@@ -14,8 +15,8 @@ import com.example.crossfit.models.WorkoutType.TYPE_EMOM
 import com.example.crossfit.models.WorkoutType.TYPE_TIME
 
 
-class RcAdapter2(val delete : (id : String) -> Unit): RecyclerView.Adapter<RcAdapter2.Holder>() {
-    val list = mutableListOf<Workout>()
+class WorkoutAdapter(val delete : (id : String) -> Unit): RecyclerView.Adapter<WorkoutAdapter.Holder>() {
+    var list = listOf<Workout>()
 
     class Holder(item: ItemWorkoutBinding): RecyclerView.ViewHolder(item.root){
         val title = item.title
@@ -36,8 +37,6 @@ class RcAdapter2(val delete : (id : String) -> Unit): RecyclerView.Adapter<RcAda
         holder.date.text = list[position].dateTime
         holder.btnDelete.setOnClickListener {
             delete(list[holder.adapterPosition].id)
-            list.removeAt(holder.adapterPosition)
-            notifyItemRemoved(position)
         }
 
         Log.d("type", list[position].type)
@@ -59,9 +58,12 @@ class RcAdapter2(val delete : (id : String) -> Unit): RecyclerView.Adapter<RcAda
         return list.size
     }
 
-    fun setList(newList:List<Workout>){
-        list.clear()
-        list.addAll(newList)
-        notifyItemRangeInserted(0, list.size)
+    fun updateList(newList:List<Workout>){
+        Log.d("update", "new:->$newList")
+        Log.d("update", "old:->$list")
+        val diffCallback = WorkoutDiffUtillCallBack(list, newList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        list = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 }

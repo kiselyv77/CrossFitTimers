@@ -28,8 +28,24 @@ class TimersFragmentViewModel: ViewModel() {
         _state.value = _state.value.copy(stateCardEmom = _state.value.stateCardEmom.copy(timeInterval = autoEndTime))
     }
 
-    fun updateCardEmomCountRounds(rounds:Int){
-        _state.value = _state.value.copy(stateCardEmom = _state.value.stateCardEmom.copy(rounds =rounds))
+    fun updateCardEmomCountRounds(rounds:Long){
+        _state.value = _state.value.copy(stateCardEmom = _state.value.stateCardEmom.copy(rounds = rounds))
+    }
+
+    fun updateCardTabataCountDownTime(countDownTime:Long){
+        _state.value = _state.value.copy(stateCardTabata = _state.value.stateCardTabata.copy(countDownTime = countDownTime))
+
+    }
+
+    fun updateCardTabataTimeIntervalWork(timeIntervalWork:Long){
+        _state.value = _state.value.copy(stateCardTabata = _state.value.stateCardTabata.copy(timeIntervalWork = timeIntervalWork))
+    }
+    fun updateCardTabataTimeIntervalRest(timeIntervalRest:Long){
+        _state.value = _state.value.copy(stateCardTabata = _state.value.stateCardTabata.copy(timeIntervalRest = timeIntervalRest))
+    }
+
+    fun updateCardTabataRounds(rounds:Long){
+        _state.value = _state.value.copy(stateCardTabata = _state.value.stateCardTabata.copy(rounds = rounds))
     }
 
 

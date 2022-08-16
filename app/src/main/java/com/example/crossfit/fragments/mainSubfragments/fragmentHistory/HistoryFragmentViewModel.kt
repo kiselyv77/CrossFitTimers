@@ -23,6 +23,7 @@ class HistoryFragmentViewModel @Inject constructor(val room: WorkoutDataBase):Vi
     fun deleteWorkout(id:String){
         viewModelScope.launch {
             room.dao.deleteId(id)
+            _state.value = _state.value.copy(workoutList = room.dao.getWorkoutList().map { it.toWorkout() })
         }
     }
 
