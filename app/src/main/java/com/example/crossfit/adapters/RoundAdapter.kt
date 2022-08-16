@@ -4,11 +4,10 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.crossfit.R
 import com.example.crossfit.databinding.ItemRoundBinding
 
 
-class RcAdapter(): RecyclerView.Adapter<RcAdapter.Holder>() {
+class RoundAdapter: RecyclerView.Adapter<RoundAdapter.Holder>() {
     val list = mutableListOf<String>()
 
     class Holder(chatItem:ItemRoundBinding): RecyclerView.ViewHolder(chatItem.root){

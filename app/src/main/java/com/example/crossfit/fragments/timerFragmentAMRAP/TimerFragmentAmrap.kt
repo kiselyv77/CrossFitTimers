@@ -11,10 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crossfit.NAV_CONTROLLER
 import com.example.crossfit.R
-import com.example.crossfit.adapters.RcAdapter
+import com.example.crossfit.adapters.RoundAdapter
 import com.example.crossfit.databinding.FragmentTimerBinding
 import com.example.crossfit.fragments.MyViewModelFactory
-import com.example.crossfit.fragments.timerFragment.TimerFragmentViewModel
 import com.example.crossfit.models.WorkoutType.TYPE_AMRAP
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
@@ -29,7 +28,7 @@ class TimerFragmentAmrap : Fragment() {
         val timeEnd = arguments?.getLong("timeStart")?: 2
         val viewModel = ViewModelProvider(this, MyViewModelFactory(countdownTime, timeEnd)).get(
             TimerFragmentAmrapViewModel::class.java)
-        val adapter = RcAdapter()
+        val adapter = RoundAdapter()
         binding.rcView.adapter = adapter
         binding.rcView.layoutManager = LinearLayoutManager(requireContext())
         binding.back.setOnClickListener { NAV_CONTROLLER.popBackStack() }

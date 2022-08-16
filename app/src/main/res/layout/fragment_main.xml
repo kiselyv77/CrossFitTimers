@@ -5,15 +5,25 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MainFragment" >
+    tools:context=".fragments.MainFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabBackground="@color/darkBlue"
+        app:tabTextColor="@color/lightBlue"
+        app:tabIndicatorColor="@color/white"
+        app:tabIconTint="@color/tab_selector"
+        app:tabInlineLabel="true"
+        app:tabIndicator="@drawable/tab_indicator_bg"
+        android:elevation="2dp"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

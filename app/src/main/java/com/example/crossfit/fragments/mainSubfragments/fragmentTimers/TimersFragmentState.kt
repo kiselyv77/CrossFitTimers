@@ -9,20 +9,22 @@ data class TimersFragmentState(
 )
 
 data class StateCardForTime(
-    val countDownTime: Long = 5,
+    val countDownTime: Long = 3,
     val autoEndTime:Long = 1800
 )
 data class StateCardAmrap(
-    val countDownTime: Long = 5,
+    val countDownTime: Long = 3,
     val autoEndTime:Long = 1800
 )
 data class StateCardEmom(
-    val countDownTime: Long = 5,
+    val countDownTime: Long = 3,
     val timeInterval:Long = 1800,
-    val rounds:Int = 10
+    val rounds:Long = 10
 
 )
 data class StateCardTabata(
-    val countDownTime: Long = 5,
-    val autoEndTime:Long = 1800
+    val countDownTime: Long = 3,
+    val timeIntervalWork:Long = 1800,
+    val timeIntervalRest:Long = 1800,
+    val rounds:Long  = 10
 )
