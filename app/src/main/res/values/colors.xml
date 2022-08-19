@@ -12,4 +12,8 @@
     <color name="darkBlue">#124CA3</color>
     <color name="lightBlue">#74ABFF</color>
 
+
+    <color name="colorWork">#FF7979</color>
+    <color name="colorRest">#9CFFA0</color>
+
 </resources>

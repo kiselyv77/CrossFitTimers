@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import com.example.crossfit.databinding.FragmentDetailBinding
 import com.example.crossfit.databinding.ItemRoundBinding
 import com.example.crossfit.models.WorkoutType.TYPE_AMRAP
 import com.example.crossfit.models.WorkoutType.TYPE_EMOM
+import com.example.crossfit.models.WorkoutType.TYPE_TABATA
 import com.example.crossfit.models.WorkoutType.TYPE_TIME
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -48,8 +50,10 @@ class DetailFragment : Fragment() {
                     when(state.workout.type){
                         TYPE_TIME -> type.text = "Тренеровка на время"
                         TYPE_AMRAP -> type.text = "Amrap тренеровка"
-                        TYPE_EMOM -> type.text = "Emom Тренеровка"
+                        TYPE_EMOM -> type.text = "Emom тренеровка"
+                        TYPE_TABATA -> type.text = "Tabata тренеровка"
                     }
+
 
                     if(state.workout.rounds.isEmpty()){
                         val text = TextView(requireContext())
@@ -63,6 +67,16 @@ class DetailFragment : Fragment() {
                         item.number.text = (index+1).toString()
                         item.type.text = "раунд"
                         item.time.text = it
+                        if(state.workout.type == TYPE_TABATA){
+                            if((index+1)%2 == 0){
+                                item.root.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.colorRest))
+                                item.type.text = "отдых"
+                            }
+                            else{
+                                item.root.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.colorWork))
+                                item.type.text = "работа"
+                            }
+                        }
                         binding.roundsList.addView(item.root)
                     }
                 }

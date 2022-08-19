@@ -25,11 +25,13 @@ class TimerFragmentAmrapViewModel(private val countdownTime:Long, private val ti
     }
 
     fun addRound(){
-        _state.value.rounds.add( _state.value.timeCurrentRound)
+        _state.value.rounds.add(_state.value.timeCurrentRound)
         jobRoundTimer.cancel()
         _state.value = _state.value.copy(timeCurrentRound = "00:00")
         timeCountRound = 0
-        startTimerRound()
+        if(jobMainTimer.isActive){
+            startTimerRound()
+        }
     }
 
     fun pause(){
@@ -72,7 +74,7 @@ class TimerFragmentAmrapViewModel(private val countdownTime:Long, private val ti
         jobMainTimer = viewModelScope.launch {
             val totalSeconds = TimeUnit.SECONDS.toSeconds(timeStart.toLong())
             val tickSeconds = 1
-            for (second in totalSeconds downTo tickSeconds) {
+            for (second in timeCountMain downTo tickSeconds) {
                 val time = String.format("%02d:%02d",
                     TimeUnit.SECONDS.toMinutes(timeCountMain),
                     timeCountMain - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(timeCountMain))
@@ -81,8 +83,8 @@ class TimerFragmentAmrapViewModel(private val countdownTime:Long, private val ti
                 timeCountMain -= 1
                 delay(1000)
             }
+            _state.value = _state.value.copy(timerEnd = true)
         }
-
     }
 
     private fun startTimerRound(){

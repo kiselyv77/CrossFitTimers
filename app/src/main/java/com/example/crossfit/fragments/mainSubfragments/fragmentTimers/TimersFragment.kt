@@ -220,7 +220,7 @@ class TimersFragment : Fragment() {
 
                     btnStart.setOnClickListener{
                         val bundle = Bundle()
-                        bundle.putInt("countdownTime", state.stateCardAmrap.countDownTime.toInt())
+                        bundle.putLong("countdownTime", state.stateCardAmrap.countDownTime)
                         bundle.putLong("timeStart", state.stateCardAmrap.autoEndTime)
                         NAV_CONTROLLER.navigate(R.id.timerFragmentAmrap, bundle)
                     }
@@ -475,6 +475,16 @@ class TimersFragment : Fragment() {
                             dialog?.setContentView(root)
                             dialog?.show()
                         }
+                    }
+                    btnStart.setOnClickListener{
+                        // При навигации передаем все необходимые значения
+                        val bundle = Bundle()
+                        bundle.putLong("countdownTime", state.stateCardTabata.countDownTime)
+                        bundle.putLong("timeWork", state.stateCardTabata.timeIntervalWork)
+                        bundle.putLong("timeRest", state.stateCardTabata.timeIntervalRest)
+                        bundle.putLong("intervals", state.stateCardTabata.rounds)
+
+                        NAV_CONTROLLER.navigate(R.id.timerFragmentTabata, bundle)
                     }
                 }
             }

@@ -1,6 +1,9 @@
 package com.example.crossfit
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -17,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         NAV_CONTROLLER = findNavController(R.id.nav_host_fragment_activity_main)
-        NAV_CONTROLLER.navigate(R.id.mainFragment)
+        NAV_CONTROLLER.clearBackStack(R.id.mainFragment)
     }
+
+
 }

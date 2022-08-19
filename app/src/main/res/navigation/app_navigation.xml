@@ -45,10 +45,16 @@
         android:id="@+id/detailFragment"
         android:name="com.example.crossfit.fragments.fragmentDetail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+    </fragment>
     <fragment
         android:id="@+id/timerFragmentEmom"
         android:name="com.example.crossfit.fragments.timerFragmentEMOM.TimerFragmentEmom"
         android:label="fragment_timer_emom"
         tools:layout="@layout/fragment_timer_emom" />
+    <fragment
+        android:id="@+id/timerFragmentTabata"
+        android:name="com.example.crossfit.fragments.timerFragmentTabata.TimerFragmentTabata"
+        android:label="fragment_timer_tabata"
+        tools:layout="@layout/fragment_timer_tabata" />
 </navigation>

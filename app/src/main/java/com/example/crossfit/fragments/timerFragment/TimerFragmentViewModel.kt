@@ -16,13 +16,12 @@ class TimerFragmentViewModel(private val countdownTime:Long, private val timeEnd
     private lateinit var jobMainTimer: Job
     private lateinit var jobRoundTimer: Job
     private lateinit var jobCountdownTimer:Job
+
     private var timeCountMain:Long = 0
     private var timeCountRound:Long = 0
 
-
     init{
         startTimerCountdown()
-
     }
 
     fun addRound(){
@@ -30,7 +29,9 @@ class TimerFragmentViewModel(private val countdownTime:Long, private val timeEnd
         jobRoundTimer.cancel()
         _state.value = _state.value.copy(timeCurrentRound = "00:00")
         timeCountRound = 0
-        startTimerRound()
+        if(jobMainTimer.isActive){
+            startTimerRound()
+        }
     }
 
     fun pause(){
@@ -51,7 +52,6 @@ class TimerFragmentViewModel(private val countdownTime:Long, private val timeEnd
         timeCountRound = 0
         _state.value = _state.value.copy(time = "00:00", timeCurrentRound = "00:00", rounds = arrayListOf())
     }
-
 
     private fun startTimerCountdown(){
         jobCountdownTimer = viewModelScope.launch {
@@ -81,6 +81,7 @@ class TimerFragmentViewModel(private val countdownTime:Long, private val timeEnd
                 _state.value = _state.value.copy(time = time)
                 timeCountMain += 1
                 delay(1000)
+                if(timeCountMain == timeEnd) break
             }
             _state.value.rounds.add( _state.value.timeCurrentRound)
             jobRoundTimer.cancel()

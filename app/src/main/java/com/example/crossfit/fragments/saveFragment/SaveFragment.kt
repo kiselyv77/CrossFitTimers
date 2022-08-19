@@ -29,6 +29,7 @@ class SaveFragment: Fragment() {
         val binding = FragmentSaveBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this).get(SaveFragmentViewModel::class.java)
 
+
         val list = arguments?.getStringArrayList("rounds") ?: emptyList()
         val time = arguments?.getString("time") ?: ""
         val type = arguments?.getString("type") ?: TYPE_TIME
@@ -71,5 +72,6 @@ class SaveFragment: Fragment() {
         }
         return binding.root
     }
+
 
 }

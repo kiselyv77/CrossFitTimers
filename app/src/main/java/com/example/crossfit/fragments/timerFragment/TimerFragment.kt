@@ -1,6 +1,7 @@
 package com.example.crossfit.fragments.timerFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,11 +58,11 @@ class TimerFragment : Fragment() {
                             }
                         }
                         stop.setOnClickListener {
+                            viewModel.addRound()
                             val bundle = Bundle()
                             bundle.putStringArrayList("rounds", state.rounds)
                             bundle.putString("time", state.time)
                             bundle.putString("type", TYPE_TIME)
-                            viewModel.stop()
                             NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
                         }
                         if(state.isCountdown){
@@ -81,11 +82,12 @@ class TimerFragment : Fragment() {
                         }
                         if(state.timerEnd){
                             val bundle = Bundle()
+                            Log.d("log", state.rounds.toString())
                             bundle.putStringArrayList("rounds", state.rounds)
                             bundle.putString("time", state.time)
                             bundle.putString("type", TYPE_TIME)
-                            viewModel.stop()
                             NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
+                            NAV_CONTROLLER.currentDestination
                         }
                     }
             }

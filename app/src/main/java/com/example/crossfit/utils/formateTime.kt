@@ -8,3 +8,10 @@ fun Long.formateTime(): String {
         (this) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(this))
     )
 }
+
+fun Long.formateTime2(): String {
+    return String.format("%02d:%02d",
+        TimeUnit.SECONDS.toMinutes(this),
+        (this) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(this))
+    )
+}

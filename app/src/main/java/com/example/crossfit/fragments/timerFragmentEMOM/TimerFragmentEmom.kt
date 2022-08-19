@@ -15,6 +15,7 @@ import com.example.crossfit.databinding.FragmentTimerEmomBinding
 import com.example.crossfit.fragments.MyViewModelFactory
 import com.example.crossfit.fragments.timerFragmentAMRAP.TimerFragmentAmrapViewModel
 import com.example.crossfit.models.WorkoutType.TYPE_EMOM
+import com.example.crossfit.utils.formateTime
 import kotlinx.coroutines.launch
 
 
@@ -66,7 +67,8 @@ class TimerFragmentEmom : Fragment() {
                     if(state.timerEnd){
                         val bundle = Bundle()
                         bundle.putStringArrayList("rounds", state.rounds)
-                        bundle.putString("time", (time*intervals-state.skippingTime).toString())
+                        //добавить форматирование времени
+                        bundle.putString("time", (time*intervals-state.skippingTime).formateTime())
                         bundle.putString("type", TYPE_EMOM)
                         NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
                     }

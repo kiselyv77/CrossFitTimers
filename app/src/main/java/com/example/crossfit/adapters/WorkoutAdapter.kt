@@ -1,9 +1,11 @@
 package com.example.crossfit.adapters
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crossfit.NAV_CONTROLLER
@@ -12,7 +14,9 @@ import com.example.crossfit.databinding.ItemWorkoutBinding
 import com.example.crossfit.models.Workout
 import com.example.crossfit.models.WorkoutType.TYPE_AMRAP
 import com.example.crossfit.models.WorkoutType.TYPE_EMOM
+import com.example.crossfit.models.WorkoutType.TYPE_TABATA
 import com.example.crossfit.models.WorkoutType.TYPE_TIME
+import com.example.crossfit.utils.formateDateTime
 
 
 class WorkoutAdapter(val delete : (id : String) -> Unit): RecyclerView.Adapter<WorkoutAdapter.Holder>() {
@@ -32,18 +36,20 @@ class WorkoutAdapter(val delete : (id : String) -> Unit): RecyclerView.Adapter<W
         return holder
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.title.text = list[position].title
-        holder.date.text = list[position].dateTime
+        holder.date.text = list[position].dateTime.formateDateTime()
         holder.btnDelete.setOnClickListener {
             delete(list[holder.adapterPosition].id)
         }
 
-        Log.d("type", list[position].type)
         when(list[position].type){
             TYPE_TIME ->{holder.type.text = "Тренеровка на время"}
             TYPE_AMRAP ->{holder.type.text = "Тренеровка AMRAP"}
             TYPE_EMOM ->{holder.type.text = "Тренеровка EMOM"}
+            TYPE_TABATA ->{holder.type.text = "Тренеровка TABATA"}
+
         }
         holder.time.text = list[position].time
 
@@ -66,4 +72,5 @@ class WorkoutAdapter(val delete : (id : String) -> Unit): RecyclerView.Adapter<W
         list = newList
         diffResult.dispatchUpdatesTo(this)
     }
+
 }

@@ -40,7 +40,9 @@ class TimerFragmentEmomViewModel(private val countdownTime:Long, private val int
         if(_state.value.intervals == 0){
             _state.value = _state.value.copy(timerEnd = true)
         }
+
         restartTimer()
+
     }
 
     private fun restartTimer(){
@@ -52,7 +54,12 @@ class TimerFragmentEmomViewModel(private val countdownTime:Long, private val int
         _state.value.rounds.add(timeInterval)
         timeCount = TimeUnit.SECONDS.toSeconds(intervalTime.toLong())
         intervalTimer.cancel()
-        startTimer()
+        if(_state.value.isPlaying){
+            startTimer()
+        }
+        else{
+            _state.value = _state.value.copy(time = "00:00", progress = 0)
+        }
     }
 
     private fun startTimerCountdown(){
@@ -73,7 +80,7 @@ class TimerFragmentEmomViewModel(private val countdownTime:Long, private val int
         intervalTimer = viewModelScope.launch {
             val totalSeconds = TimeUnit.SECONDS.toSeconds(intervalTime.toLong())
             val tickSeconds = 1
-            for (second in totalSeconds downTo tickSeconds) {
+            for (second in timeCount downTo tickSeconds) {
                 val time = String.format("%02d:%02d",
                     TimeUnit.SECONDS.toMinutes(timeCount),
                     timeCount - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(timeCount))

@@ -56,14 +56,13 @@ class TimerFragmentAmrap : Fragment() {
                             viewModel.play()
                             pausePlay.setImageResource(R.drawable.pause)
                         }
-
                     }
                     stop.setOnClickListener {
                         val bundle = Bundle()
+                        viewModel.addRound()
                         bundle.putStringArrayList("rounds", state.rounds)
                         bundle.putString("time", state.time)
                         bundle.putString("type", TYPE_AMRAP)
-                        viewModel.stop()
                         NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
                     }
                     if(state.isCountdown){
@@ -86,7 +85,6 @@ class TimerFragmentAmrap : Fragment() {
                         bundle.putStringArrayList("rounds", state.rounds)
                         bundle.putString("time", state.time)
                         bundle.putString("type", TYPE_AMRAP)
-                        viewModel.stop()
                         NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
                     }
                 }
