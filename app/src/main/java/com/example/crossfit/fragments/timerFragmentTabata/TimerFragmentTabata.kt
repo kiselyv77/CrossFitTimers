@@ -1,22 +1,19 @@
 package com.example.crossfit.fragments.timerFragmentTabata
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.crossfit.NAV_CONTROLLER
 import com.example.crossfit.R
-import com.example.crossfit.databinding.FragmentTimerBinding
 import com.example.crossfit.databinding.FragmentTimerTabataBinding
 import com.example.crossfit.fragments.MyViewModelFactory
-import com.example.crossfit.fragments.timerFragmentEMOM.TimerFragmentEmomViewModel
 import com.example.crossfit.models.WorkoutType
 import com.example.crossfit.utils.formateTime
-import com.example.crossfit.utils.formateTime2
 import kotlinx.coroutines.launch
 
 
@@ -35,7 +32,6 @@ class TimerFragmentTabata : Fragment() {
             timeWork = timeWork,
             timeRest = timeRest,
             intervals = intervals)).get(TimerFragmentTabataViewModel::class.java)
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
@@ -63,7 +59,7 @@ class TimerFragmentTabata : Fragment() {
                     if(state.timerEnd){
                         val bundle = Bundle()
                         bundle.putStringArrayList("rounds", state.rounds)
-                        bundle.putString("time", ((timeWork+timeRest)*intervals-state.skippingTime).formateTime())
+                        bundle.putString("time", (state.timeRest + state.timeWork).formateTime())
                         bundle.putString("type", WorkoutType.TYPE_TABATA)
                         NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
                     }

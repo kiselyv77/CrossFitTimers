@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class TimersFragmentViewModel: ViewModel() {
+
     private  val _state =  MutableStateFlow(TimersFragmentState())
     val state = _state
 

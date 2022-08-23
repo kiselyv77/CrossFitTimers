@@ -36,8 +36,8 @@ class TimerFragmentTabataViewModel(
     fun skip(){
         if(_state.value.isWorking){
             val skipTimeWork = TimeUnit.SECONDS.toSeconds(timeWork.toLong()) - timeCountWork
-            _state.value = _state.value.copy(skippingTime =  _state.value.skippingTime + skipTimeWork)
-            Log.d("skippingTime", _state.value.skippingTime.toString())
+            _state.value = _state.value.copy(timeWork = _state.value.timeWork + skipTimeWork)
+            //Log.d("skippingTime", _state.value.skippingTime.toString())
             _state.value.rounds.add(skipTimeWork.formateTime2())
             timeCountWork = TimeUnit.SECONDS.toSeconds(timeWork.toLong())
             intervalTimer.cancel()
@@ -50,7 +50,7 @@ class TimerFragmentTabataViewModel(
         }
         else{
             val skipTimeRest = TimeUnit.SECONDS.toSeconds(timeRest.toLong()) - timeCountRest
-            _state.value = _state.value.copy(skippingTime =  _state.value.skippingTime + skipTimeRest)
+            _state.value = _state.value.copy(timeWork = _state.value.timeWork + skipTimeRest)
             _state.value.rounds.add(skipTimeRest.formateTime2())
             _state.value = _state.value.copy(intervals = _state.value.intervals - 1)
             timeCountRest = TimeUnit.SECONDS.toSeconds(timeRest.toLong())

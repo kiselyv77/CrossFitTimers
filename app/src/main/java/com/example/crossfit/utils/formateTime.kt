@@ -1,5 +1,6 @@
 package com.example.crossfit.utils
 
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
 fun Long.formateTime(): String {
@@ -15,3 +16,4 @@ fun Long.formateTime2(): String {
         (this) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(this))
     )
 }
+

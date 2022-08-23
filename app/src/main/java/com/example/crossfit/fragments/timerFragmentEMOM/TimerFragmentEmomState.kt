@@ -9,5 +9,6 @@ data class TimerFragmentEmomState(
     val intervals:Int = 10,
     val progress:Int = 0,
     val skippingTime:Long = 0,
-    val rounds: ArrayList<String> = arrayListOf()
+    val rounds: ArrayList<String> = arrayListOf(),
+    val timeWork: Long = 0,
 )

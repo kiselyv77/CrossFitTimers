@@ -18,7 +18,6 @@ import com.example.crossfit.models.WorkoutType.TYPE_TABATA
 import com.example.crossfit.models.WorkoutType.TYPE_TIME
 import com.example.crossfit.utils.formateDateTime
 
-
 class WorkoutAdapter(val delete : (id : String) -> Unit): RecyclerView.Adapter<WorkoutAdapter.Holder>() {
     var list = listOf<Workout>()
 

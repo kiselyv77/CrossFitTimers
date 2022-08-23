@@ -8,7 +8,8 @@ data class TimerFragmentTabataState(
     val timerEnd:Boolean = false,
     val intervals:Int = 10,
     val progress:Int = 0,
-    val skippingTime:Long = 0,
+    val timeWork:Long = 0,
+    val timeRest:Long = 0,
     val rounds: ArrayList<String> = arrayListOf(),
     val isWorking: Boolean = true
 )

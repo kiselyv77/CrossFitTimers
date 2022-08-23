@@ -68,7 +68,7 @@ class TimerFragmentEmom : Fragment() {
                         val bundle = Bundle()
                         bundle.putStringArrayList("rounds", state.rounds)
                         //добавить форматирование времени
-                        bundle.putString("time", (time*intervals-state.skippingTime).formateTime())
+                        bundle.putString("time", (state.timeWork).formateTime())
                         bundle.putString("type", TYPE_EMOM)
                         NAV_CONTROLLER.navigate(R.id.saveFragment, bundle)
                     }

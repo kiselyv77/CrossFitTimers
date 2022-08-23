@@ -22,6 +22,4 @@ class MainActivity : AppCompatActivity() {
         NAV_CONTROLLER = findNavController(R.id.nav_host_fragment_activity_main)
         NAV_CONTROLLER.clearBackStack(R.id.mainFragment)
     }
-
-
 }

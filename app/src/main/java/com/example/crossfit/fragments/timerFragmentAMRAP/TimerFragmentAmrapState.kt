@@ -7,5 +7,6 @@ data class TimerFragmentAmrapState(
     val isCountdown:Boolean = true,
     val timeCountDownTimer:String = "",
     val timerEnd:Boolean = false,
-    val rounds: ArrayList<String> = arrayListOf()
+    val rounds: ArrayList<String> = arrayListOf(),
+    val timeWork:Long = 0
 )

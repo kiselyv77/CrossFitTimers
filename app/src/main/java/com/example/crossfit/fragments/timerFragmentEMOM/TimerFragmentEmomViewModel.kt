@@ -3,6 +3,8 @@ package com.example.crossfit.fragments.timerFragmentEMOM
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.crossfit.utils.formateTime
+import com.example.crossfit.utils.formateTime2
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,11 +49,8 @@ class TimerFragmentEmomViewModel(private val countdownTime:Long, private val int
 
     private fun restartTimer(){
         val skipTime = TimeUnit.SECONDS.toSeconds(intervalTime.toLong()) - timeCount
-        val timeInterval = String.format("%02d:%02d",
-            TimeUnit.SECONDS.toMinutes(timeCount - skipTime),
-            (timeCount - skipTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(timeCount - skipTime))
-        )
-        _state.value.rounds.add(timeInterval)
+        _state.value = _state.value.copy(timeWork = _state.value.timeWork + skipTime)
+        _state.value.rounds.add(skipTime.formateTime2())
         timeCount = TimeUnit.SECONDS.toSeconds(intervalTime.toLong())
         intervalTimer.cancel()
         if(_state.value.isPlaying){
